@@ -8,7 +8,7 @@ import ExchangeButton from "../components/ExchangeButton";
 
 const Wrapper = styled.div`
   position: relative;
-  width: 50vw;
+  width: 85vw;
   display: flex;
   flex-direction: ${props =>
     props.swapPositions ? "column-reverse" : "column"}
@@ -17,6 +17,10 @@ const Wrapper = styled.div`
   background: linear-gradient(0deg, rgba(247,247,247,1) 50%, rgba(255,255,255,1) 50%);
   border-radius: 4px;
   color: #282b34;
+
+  @media (min-width: 900px) {
+    width: 50vw;
+  }
 
   button {
     & + button {

@@ -6,8 +6,8 @@ import { ExchangeContext } from "../context/ExchangeContext";
 const ToggleButton = styled.button`
   position: absolute;
   top: 41%;
-  right: -14px;
-  padding: 5px 10px;
+  right: -12px;
+  padding: 2px 7px;
   background: #fff;
   border: none;
   border-radius: 30px;
@@ -16,6 +16,11 @@ const ToggleButton = styled.button`
   font-size: 18px;
   box-shadow: 0px 0px 0px 3px #282b34;
   transition: all 0.2s;
+
+  @media (min-width: 900px) {
+    padding: 5px 10px;
+    right: -14px;
+  }
 
   &:hover {
     background: #4caf4f;
