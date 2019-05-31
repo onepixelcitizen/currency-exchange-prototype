@@ -73,7 +73,7 @@ const ExchangeRate = () => {
   }, [rate, dispatch]);
 
   return (
-    <ExchangeWrapper>
+    <ExchangeWrapper data-testid="exchangeRate">
       {rate === undefined ? (
         <Loader src={loader} alt="Loader..." />
       ) : (

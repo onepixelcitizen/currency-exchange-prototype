@@ -97,6 +97,7 @@ const ExchangeButton = () => {
       type="button"
       disabled={disabled && "disabled"}
       onClick={handleExchange}
+      data-testid="exchangeButton"
     >
       Exchange
     </Button>

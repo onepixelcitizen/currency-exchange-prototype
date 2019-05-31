@@ -62,7 +62,11 @@ const SwitchButton = ({
     });
   }, [toggle, dispatch]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  return <ToggleButton onClick={handleToggle}>↕</ToggleButton>;
+  return (
+    <ToggleButton data-testid="toggleButton" onClick={handleToggle}>
+      ↕
+    </ToggleButton>
+  );
 };
 
 export default SwitchButton;
