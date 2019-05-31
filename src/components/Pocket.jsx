@@ -9,7 +9,7 @@ const BalanceInfo = styled.div`
   color: #777;
 `;
 
-const Pocket = ({ initialPocketCurrency, activeWalletCurrency }) => {
+const Pocket = ({ initialPocketCurrency, activeWalletCurrency, bailOut }) => {
   const { state } = useContext(ExchangeContext);
   const [walletData] = useState(state.walletData);
   const [pocketCurrency, setPocketCurrency] = useState(initialPocketCurrency);
@@ -29,6 +29,12 @@ const Pocket = ({ initialPocketCurrency, activeWalletCurrency }) => {
     memoizedUpdatePocketData(pocketCurrency);
     activeWalletCurrency(pocketCurrency);
   }, [memoizedUpdatePocketData, pocketCurrency, activeWalletCurrency]);
+
+  useEffect(() => {
+    if (bailOut !== undefined) {
+      setPocketCurrency(bailOut);
+    }
+  }, [bailOut]);
 
   const { symbol, balance } = pocketData;
 

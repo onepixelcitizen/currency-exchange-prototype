@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 
 import "./App.css";
 import getExchangeRates from "./api/exchange";
@@ -11,6 +11,10 @@ function App() {
   const { dispatch } = useContext(ExchangeContext);
   const [walletOneCurrency, fromWalletOne] = useState();
   const [walletTwoCurrency, fromWalletTwo] = useState();
+  const [bailOutValueOne, setBailOutValueOne] = useState();
+  const [bailOutValueTwo, setBailOutValueTwo] = useState();
+  const previousWalletOneCurrency = useRef();
+  const previousWalletTwoCurrency = useRef();
 
   useEffect(() => {
     const fetchExchangeRates = async currencies => {
@@ -29,11 +33,31 @@ function App() {
         console.error(error); // eslint-disable-line no-console
       }
     };
+
     fetchExchangeRates(["USD", "EUR", "GBP"]);
-    setInterval(() => {
+
+    const myTimeout = setInterval(() => {
       fetchExchangeRates(["USD", "EUR", "GBP"]);
     }, 10000);
+
+    return () => {
+      clearInterval(myTimeout);
+    };
   }, [dispatch]);
+
+  useEffect(() => {
+    if (walletOneCurrency !== undefined && walletTwoCurrency !== undefined) {
+      if (walletOneCurrency === walletTwoCurrency) {
+        if (previousWalletOneCurrency.current !== walletOneCurrency) {
+          setBailOutValueTwo(previousWalletOneCurrency.current);
+        } else {
+          setBailOutValueOne(previousWalletTwoCurrency.current);
+        }
+      }
+    }
+    previousWalletOneCurrency.current = walletOneCurrency;
+    previousWalletTwoCurrency.current = walletTwoCurrency;
+  }, [walletOneCurrency, walletTwoCurrency]);
 
   return (
     <>
@@ -50,10 +74,12 @@ function App() {
         <Wallet
           initialWalletCurrency="EUR"
           thisWalletCurrency={fromWalletOne}
+          bailOutValue={bailOutValueOne}
         />
         <Wallet
           initialWalletCurrency="USD"
           thisWalletCurrency={fromWalletTwo}
+          bailOutValue={bailOutValueTwo}
         />
       </SwitchWrapper>
     </>

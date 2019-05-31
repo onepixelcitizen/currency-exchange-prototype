@@ -26,7 +26,7 @@ const WalletWrapper = styled.div`
           left: -10px;
           color: #d4d4d4;
         }
-        &.plius {
+        &.plus {
           &:before {
             content: "-";
           }
@@ -41,7 +41,11 @@ const WalletWrapper = styled.div`
   }
 `;
 
-const Wallet = ({ initialWalletCurrency, thisWalletCurrency }) => {
+const Wallet = ({
+  initialWalletCurrency,
+  thisWalletCurrency,
+  bailOutValue
+}) => {
   const fromCurrencyRef = useRef(initialWalletCurrency);
   const toCurrencyRef = useRef(initialWalletCurrency);
   const { state, dispatch } = useContext(ExchangeContext);
@@ -179,11 +183,12 @@ const Wallet = ({ initialWalletCurrency, thisWalletCurrency }) => {
 
   return (
     <>
-      <WalletWrapper>
+      <WalletWrapper data-testid="wallet">
         <div>
           <Pocket
             initialPocketCurrency={initialWalletCurrency}
             activeWalletCurrency={activeWalletCurrency}
+            bailOut={bailOutValue}
           />
         </div>
         <div>
@@ -191,7 +196,7 @@ const Wallet = ({ initialWalletCurrency, thisWalletCurrency }) => {
             html={localThis ? from.toString() : to.toString()}
             onChange={handleChange}
             onKeyPress={validateNumber}
-            className={localThis ? "plius" : "minus"}
+            className={localThis ? "plus" : "minus"}
           />
         </div>
       </WalletWrapper>
